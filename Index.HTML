@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+<html lang="en" class="dark">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Night Hub - Dark Mode Mobile Video Feed</title>
+
+  <meta name="description" content="Clean mobile UI screen mockup of a dark-mode single-column video feed website layout on a smartphone display with banner ad header, duration badges, and floating bottom nav." />
+
+
+  <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+  <!-- Tailwind CSS CDN -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+
+    tailwind.config = {
+
+      darkMode: 'class',
+
+      theme: {
+
+        extend: {
+
+          fontFamily: {
+
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+
+            mono: ['"JetBrains Mono"', 'monospace'],
+
+          },
+
+          colors: {
+
+            zinc: {
+
+              850: '#1e1e24',
+
+              950: '#09090b',
+
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  </script>
+
+
+  <style>
+
+    body {
+
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      background-color: #050507;
+
+      color: #f4f4f5;
+
+      -webkit-tap-highlight-color: transparent;
+
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+
+      width: 4px;
+
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+
+      background: transparent;
+
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+
+      background: #27272a;
+
+      border-radius: 9999px;
+
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+
+      display: none;
+
+    }
+
+    .no-scrollbar {
+
+      -ms-overflow-style: none;
+
+      scrollbar-width: none;
+
+    }
+
+    @keyframes fadeIn {
+
+      from { opacity: 0; transform: translateY(4px); }
+
+      to { opacity: 1; transform: translateY(0); }
+
+    }
+
+    .animate-fade-in {
+
+      animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    }
+
+  </style>
+
+</head>
+
+<body class="min-h-screen flex flex-col items-center justify-start p-0 sm:py-6 antialiased selection:bg-zinc-800 selection:text-white">
+
+
+  <!-- 18+ AGE VERIFICATION OVERLAY POPUP -->
+
+  <div id="ageGateModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl animate-fade-in">
+
+    <div class="relative w-full max-w-sm bg-zinc-900 border border-zinc-800 rounded-3xl p-6 text-center shadow-2xl space-y-5">
+
+      
+
+      <div class="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center mx-auto text-2xl font-black font-mono shadow-lg shadow-red-500/10">
+
+        18+
+
+      </div>
+
+
+      <div class="space-y-2">
+
+        <h3 class="text-xl font-extrabold text-white tracking-tight">Age Verification</h3>
+
+        <p class="text-xs text-zinc-400 leading-relaxed">
+
+          This website contains adult-oriented content and restricted media. You must be at least 18 years old or of legal age in your jurisdiction to enter.
+
+        </p>
+
+      </div>
+
+
+      <div class="space-y-2.5 pt-2">
+
+        <button onclick="confirmAge(true)" class="w-full py-3 px-4 rounded-xl bg-red-600 hover:bg-red-500 active:scale-95 text-white font-bold text-xs tracking-wide uppercase transition-all shadow-lg shadow-red-600/30">
+
+          I am 18 or Older — Enter
+
+        </button>
+
+        
+
+        <button onclick="confirmAge(false)" class="w-full py-3 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-zinc-400 hover:text-zinc-200 font-semibold text-xs tracking-wide transition-all">
+
+          Under 18 — Exit
+
+        </button>
+
+      </div>
+
+
+      <p class="text-[10px] text-zinc-600">
+
+        By entering, you agree to our Terms of Service &amp; Privacy Policy.
+
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Top Mockup Switcher Controls (Desktop bar) -->
+
+  <header class="hidden md:flex w-full max-w-4xl items-center justify-between px-6 py-2.5 mb-4 border border-zinc-900 bg-zinc-950/80 backdrop-blur-md rounded-2xl text-xs">
+
+    <div class="flex items-center gap-2.5">
+
+      <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+
+      <span class="font-bold text-white tracking-tight">NIGHT HUB</span>
+
+      <span class="text-zinc-600">|</span>
+
+      <span class="text-zinc-400">Smartphone Feed Screen Mockup</span>
+
+    </div>
+
+    <div class="flex items-center gap-2">
+
+      <button id="toggleFrameBtn" onclick="toggleChassis()" class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors font-medium flex items-center gap-1.5">
+
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" stroke-width="2"/><path d="M12 18h.01" stroke-width="2"/></svg>
+
+        <span id="frameToggleText">Toggle Chassis</span>
+
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- Smartphone Mockup Enclosure -->
+
+  <div id="phoneChassis" class="relative w-full max-w-[412px] sm:h-[860px] h-screen bg-zinc-950 sm:rounded-[48px] sm:border-[10px] sm:border-zinc-800 sm:ring-1 sm:ring-white/10 sm:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden transition-all duration-300">
+
+
+    <!-- Smartphone Top Status Bar & Dynamic Island -->
+
+    <div class="relative z-30 shrink-0 w-full bg-zinc-950 pt-2 px-6 flex items-center justify-between text-[11px] font-semibold text-zinc-300 select-none">
+
+      <span class="font-mono tabular-nums tracking-tight">9:41</span>
+
+      
+
+      <!-- Dynamic Island Capsule -->
+
+      <div class="w-24 h-5 rounded-full bg-black border border-zinc-800/80 flex items-center justify-end px-2 gap-1.5">
+
+        <div class="w-2 h-2 rounded-full bg-zinc-900 border border-zinc-700/60"></div>
+
+      </div>
+
+
+      <!-- Signal / Wifi / Battery -->
+
+      <div class="flex items-center gap-1.5 text-zinc-300">
+
+        <span class="text-[10px] font-bold">5G</span>
+
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 20h.01M2 8.82a15 15 0 0 1 20 0M5 12.859a10 10 0 0 1 14 0M8.5 16.429a5 5 0 0 1 7 0" stroke-width="2" stroke-linecap="round"/></svg>
+
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="16" height="10" x="2" y="7" rx="2" stroke-width="2"/><path d="M22 11v2" stroke-width="2" stroke-linecap="round"/></svg>
+
+      </div>
+
+    </div>
+
+
+    <!-- Scrollable Smartphone App Body -->
+
+    <div id="feedScrollContainer" class="flex-1 w-full overflow-y-auto custom-scrollbar flex flex-col relative bg-zinc-950">
+
+      
+
+      <!-- App Header Bar -->
+
+      <header class="sticky top-0 z-30 w-full bg-zinc-950/95 backdrop-blur-md border-b border-zinc-900 px-4 py-2.5 flex items-center justify-between">
+
+        <div class="flex items-center gap-2">
+
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50"></span>
+
+          <h1 class="text-base font-extrabold tracking-tight text-white font-mono">
+
+            NIGHT<span class="text-zinc-500 font-sans font-medium text-xs ml-1">HUB</span>
+
+          </h1>
+
+        </div>
+
+        <button onclick="showToast('No new notifications')" class="p-1.5 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors" aria-label="Notifications">
+
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9m7.3 13a2 2 0 0 1-3.6 0" stroke-width="2" stroke-linecap="round"/></svg>
+
+        </button>
+
+      </header>
+
+
+      <!-- BANNER AD HEADER -->
+
+      <aside id="bannerAdContainer" class="relative z-20 w-full bg-zinc-900/90 border-b border-zinc-800/80 backdrop-blur-md transition-all">
+
+        <div class="px-3.5 py-2.5 flex items-center justify-between gap-3">
+
+          <div onclick="openAdModal()" class="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-zinc-800 border border-zinc-700/60 cursor-pointer group">
+
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&q=80" alt="Kronos Apex-7" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+
+          </div>
+
+
+          <div onclick="openAdModal()" class="flex-1 min-w-0 cursor-pointer group">
+
+            <div class="flex items-center gap-1.5 mb-0.5">
+
+              <span class="text-[10px] font-semibold tracking-wider uppercase text-amber-400/90">Sponsored</span>
+
+              <span class="text-zinc-600 text-[10px]">·</span>
+
+              <span class="text-[11px] font-medium text-zinc-400 truncate">Kronos Audio</span>
+
+            </div>
+
+            <h4 class="text-xs font-bold text-zinc-100 truncate group-hover:text-white">Kronos Apex-7 Reference ANC</h4>
+
+            <p class="text-[11px] text-zinc-400 truncate">40mm Beryllium drivers with spatial audio tuning</p>
+
+          </div>
+
+
+          <div class="flex items-center gap-1 shrink-0">
+
+            <button onclick="openAdModal()" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold tracking-tight shadow-sm active:scale-95 transition-all">
+
+              <span>Explore</span>
+
+              <svg class="w-3 h-3 text-zinc-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6m4-3h6v6m-11 5L21 3" stroke-width="2" stroke-linecap="round"/></svg>
+
+            </button>
+
+            <button onclick="dismissAd()" class="w-7 h-7 flex items-center justify-center rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/60 transition-colors" title="Dismiss advertisement">
+
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke-width="2" stroke-linecap="round"/></svg>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <!-- Category Filter Pills -->
+
+      <div class="px-3.5 py-2.5 border-b border-zinc-900 bg-zinc-950/90 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+
+        <button onclick="filterCategory('All')" class="cat-pill active px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-zinc-100 text-zinc-950 shadow-sm transition-all" data-category="All">All</button>
+
+        <button onclick="filterCategory('Cinema')" class="cat-pill px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-zinc-900 text-zinc-400 hover:text-zinc-200 transition-all" data-category="Cinema">Cinema</button>
+
+        <button onclick="filterCategory('Architecture')" class="cat-pill px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-zinc-900 text-zinc-400 hover:text-zinc-200 transition-all" data-category="Architecture">Architecture</button>
+
+        <button onclick="filterCategory('Science')" class="cat-pill px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-zinc-900 text-zinc-400 hover:text-zinc-200 transition-all" data-category="Science">Science</button>
+
+        <button onclick="filterCategory('Documentary')" class="cat-pill px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-zinc-900 text-zinc-400 hover:text-zinc-200 transition-all" data-category="Documentary">Documentary</button>
+
+      </div>
+
+
+      <!-- VERTICAL FEED OF STACKED VIDEO POSTS -->
+
+      <section id="videoFeed" aria-label="Video Feed" class="flex-1 w-full px-3.5 divide-y divide-zinc-900">
+
+        <!-- Rendered dynamically by JavaScript -->
+
+      </section>
+
+
+      <!-- FOOTER -->
+
+      <footer class="w-full bg-zinc-950 border-t border-zinc-900 pt-8 pb-28 px-5 text-center text-xs text-zinc-500">
+
+        <div class="max-w-md mx-auto space-y-4">
+
+          <div class="flex items-center justify-center gap-2">
+
+            <div class="w-5 h-5 rounded-md bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+
+              <div class="w-2 h-2 rounded-full bg-zinc-300"></div>
+
+            </div>
+
+            <span class="font-bold tracking-tight text-zinc-200 text-sm">NIGHT HUB</span>
+
+          </div>
+
+
+          <p class="text-zinc-500 text-[11px] leading-relaxed max-w-xs mx-auto">
+
+            Minimalist dark-mode video curation. High-bitrate audio and documentary cinematography.
+
+          </p>
+
+
+          <nav aria-label="Footer Legal Links" class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-zinc-400">
+
+            <button onclick="openModal('terms')" class="hover:text-zinc-100 transition-colors underline underline-offset-4 decoration-zinc-700 hover:decoration-zinc-300 py-1">
+
+              Terms &amp; Conditions
+
+            </button>
+
+            <span class="text-zinc-700">·</span>
+
+            <button onclick="openModal('privacy')" class="hover:text-zinc-100 transition-colors underline underline-offset-4 decoration-zinc-700 hover:decoration-zinc-300 py-1">
+
+              Privacy Policy
+
+            </button>
+
+            <span class="text-zinc-700">·</span>
+
+            <button onclick="scrollToTop()" class="inline-flex items-center gap-1 hover:text-zinc-100 transition-colors py-1">
+
+              <span>Top</span>
+
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m5 15 7-7 7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+            </button>
+
+          </nav>
+
+
+          <div class="pt-2 border-t border-zinc-900/60 text-[11px] text-zinc-600">
+
+            <span>&copy; <span id="currentYear">2026</span> Night Hub Inc. All rights reserved.</span>
+
+          </div>
+
+        </div>
+
+      </footer>
+
+
+      <!-- FLOATING BOTTOM NAVIGATION BAR (Home, Search Only) -->
+
+      <nav aria-label="Bottom Navigation" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[68%] max-w-[220px] px-2 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800/90 backdrop-blur-xl shadow-2xl shadow-black/80 flex items-center justify-around">
+
+        <!-- Home Tab -->
+
+        <button id="navHomeBtn" onclick="switchNav('home')" class="nav-btn relative min-h-[44px] min-w-[72px] flex flex-col items-center justify-center rounded-full text-white transition-all active:scale-95" aria-label="Home">
+
+          <span class="nav-active-pill absolute inset-0 bg-zinc-800/80 rounded-full -z-10 border border-zinc-700/50 shadow-inner"></span>
+
+          <svg class="w-5 h-5 scale-110 stroke-[2.25]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="9 22 9 12 15 12 15 22" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+          <span class="text-[10px] font-semibold tracking-tight mt-0.5 text-zinc-100">Home</span>
+
+        </button>
+
+
+        <!-- Search Tab -->
+
+        <button id="navSearchBtn" onclick="switchNav('search')" class="nav-btn relative min-h-[44px] min-w-[72px] flex flex-col items-center justify-center rounded-full text-zinc-400 hover:text-zinc-200 transition-all active:scale-95" aria-label="Search">
+
+          <span class="nav-active-pill hidden absolute inset-0 bg-zinc-800/80 rounded-full -z-10 border border-zinc-700/50 shadow-inner"></span>
+
+          <svg class="w-5 h-5 stroke-[1.75]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-linecap="round" stroke-linejoin="round"/><path d="m21 21-4.3-4.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+          <span class="text-[10px] font-medium tracking-tight mt-0.5 text-zinc-400">Search</span>
+
+        </button>
+
+      </nav>
+
+
+    </div>
+
+
+    <!-- Smartphone Bottom Indicator Bar -->
+
+    <div class="relative z-30 shrink-0 w-full py-1.5 bg-zinc-950 flex justify-center pointer-events-none">
+
+      <div class="w-32 h-1 bg-zinc-700/70 rounded-full"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- MODALS -->
+
+
+  <!-- 1. Video Watch Modal -->
+
+  <div id="videoModal" class="hidden fixed inset-0 z-50 flex flex-col justify-end sm:justify-center items-center bg-black/85 backdrop-blur-md animate-fade-in" onclick="closeVideoModal()">
+
+    <div class="relative w-full max-w-lg max-h-[92vh] flex flex-col bg-zinc-950 border border-zinc-800 rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+
+      <div class="w-10 h-1 bg-zinc-700 rounded-full mx-auto my-2.5 sm:hidden shrink-0"></div>
+
+      
+
+      <div class="relative w-full aspect-video bg-black overflow-hidden group">
+
+        <img id="modalVideoThumb" src="" alt="Video thumbnail" class="w-full h-full object-cover opacity-90" />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none"></div>
+
+        
+
+        <div class="absolute inset-0 flex flex-col justify-between p-3">
+
+          <div class="flex items-center justify-between">
+
+            <span id="modalVideoCatBadge" class="px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-[10px] font-semibold uppercase text-zinc-300">4K HDR</span>
+
+            <button onclick="closeVideoModal()" class="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-zinc-800 transition-colors">
+
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke-width="2" stroke-linecap="round"/></svg>
+
+            </button>
+
+          </div>
+
+
+          <div class="flex items-center justify-center">
+
+            <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-xl cursor-pointer hover:scale-105 active:scale-95 transition-all">
+
+              <svg class="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+
+            </div>
+
+          </div>
+
+
+          <div class="space-y-1">
+
+            <div class="w-full h-1.5 bg-zinc-700/80 rounded-full overflow-hidden">
+
+              <div class="w-1/3 h-full bg-amber-400 rounded-full"></div>
+
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] font-mono text-zinc-300">
+
+              <span id="modalVideoDurationDisplay">14:20 / 42:15 min</span>
+
+              <span>1080p60</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="p-4 space-y-3 overflow-y-auto custom-scrollbar text-zinc-200">
+
+        <div>
+
+          <h2 id="modalVideoTitle" class="text-base font-bold text-white leading-snug"></h2>
+
+          <div id="modalVideoMeta" class="flex items-center gap-2 text-xs text-zinc-400 mt-1"></div>
+
+        </div>
+
+
+        <div class="bg-zinc-900/60 rounded-xl p-3 border border-zinc-800 text-xs text-zinc-300 leading-relaxed">
+
+          <p id="modalVideoSummary"></p>
+
+        </div>
+
+
+        <div class="pt-2 flex justify-end">
+
+          <button onclick="closeVideoModal()" class="px-4 py-2 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold">Done Watching</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 2. Search Modal -->
+
+  <div id="searchModal" class="hidden fixed inset-0 z-50 flex items-start justify-center p-4 pt-12 sm:pt-20 bg-black/80 backdrop-blur-md animate-fade-in" onclick="closeSearchModal()">
+
+    <div class="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]" onclick="event.stopPropagation()">
+
+      <div class="p-3.5 border-b border-zinc-800 flex items-center gap-2.5">
+
+        <svg class="w-4 h-4 text-zinc-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="m21 21-4.3-4.3" stroke-width="2"/></svg>
+
+        <input id="searchInput" type="text" oninput="handleSearch(this.value)" placeholder="Search documentaries, cinema, titles..." class="flex-1 bg-transparent text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none" />
+
+        <button onclick="closeSearchModal()" class="text-xs font-semibold text-zinc-400 hover:text-zinc-200 px-2 py-1">Close</button>
+
+      </div>
+
+
+      <div id="searchResults" class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-2">
+
+        <!-- Injected via JS -->
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 3. Legal / Policy / Ad Details Modal -->
+
+  <div id="legalModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in" onclick="closeModal()">
+
+    <div class="relative w-full max-w-lg max-h-[85vh] overflow-y-auto custom-scrollbar bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-2xl text-zinc-200" onclick="event.stopPropagation()">
+
+      <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-zinc-800/80 hover:bg-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
+
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke-width="2" stroke-linecap="round"/></svg>
+
+      </button>
+
+
+      <div id="legalModalContent"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Toast Notification Capsule -->
+
+  <div id="toast" class="hidden fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-zinc-800 text-zinc-100 text-xs font-semibold shadow-2xl border border-zinc-700"></div>
+
+
+  <!-- Age Verification Logic Script -->
+
+  <script>
+
+    function confirmAge(isAdult) {
+
+      if (isAdult) {
+
+        localStorage.setItem('ageVerified', 'true');
+
+        document.getElementById('ageGateModal').classList.add('hidden');
+
+      } else {
+
+        alert("Access Denied: You must be 18 or older to view this site.");
+
+        window.location.href = "https://www.google.com";
+
+      }
+
+    }
+
+
+    // Check if user is already verified
+
+    window.addEventListener('DOMContentLoaded', () => {
+
+      if (localStorage.getItem('ageVerified') === 'true') {
+
+        document.getElementById('ageGateModal').classList.add('hidden');
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
